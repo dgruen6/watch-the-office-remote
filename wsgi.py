@@ -1,4 +1,5 @@
 import csv
+import os
 
 from flask import Flask, request
 from omxplayer.player import OMXPlayer
@@ -63,6 +64,24 @@ def pause():
     player.pause()
 
     return "Video paused."
+
+
+@app.route('/tv-power')
+def tv_power():
+    """
+    Turn TV on or off
+
+    :return:
+    """
+    status = request.args.get('status', default=1, type=str)
+    if status == 'on':
+        os.system("echo on 0 | cec-client -s -d 1")
+        return "TV on"
+    elif status == 'off':
+        os.system("echo standby 0 | cec-client -s -d 1")
+        return "TV off"
+    else:
+        return "Invalid command. Valid commands are 'on' and 'off'"
 
 
 # If we're running in stand alone mode, run the application
