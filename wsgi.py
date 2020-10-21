@@ -1,11 +1,13 @@
 import csv
 import os
+import subprocess
 
-from flask import Flask, request
-from omxplayer.player import OMXPlayer
+from flask import Flask, request, current_app
+from omxplayer.player import OMXPlayer  # OMXPlayer is available by default on Raspberry Pi
+
 
 # Create the web application instance
-app = Flask(__name__, template_folder="templates")
+app = Flask(__name__)
 
 # Season-episode-dictionary
 season_episode_csv_file = 'season_episode_dict.csv'
@@ -15,8 +17,8 @@ for row in reader:
     season, episode, link = row
     season_episode_dict[(int(season), int(episode))] = link
 
-# Placeholder for player object
-player = None
+# Create space for player object in application context
+app.config['player'] = None
 
 
 @app.route('/select')
@@ -27,28 +29,34 @@ def select():
 
     :return: String with status
     """
-    global player
+    # Get current player object
+    player = current_app.config['player']
 
+    # Stop player if it exists (stops a running video)
     if player:
         player.stop()
+        subprocess.call("pkill omx", shell=True)
+
+    # Read season and episode number from request
     season_ = request.args.get('season', default=1, type=int)
-    episode_ = request.args.get('episode', default='1', type=int)
+    episode_ = request.args.get('episode', default=1, type=int)
     video_link = season_episode_dict[(season_, episode_)]
-    #TODO: check if season episode combination valid
 
-    player = OMXPlayer(video_link, dbus_name='org.mpris.MediaPlayer2.omxplayer1')
-    player.play()
+    # Create new player object. Playback starts automatically
+    player = OMXPlayer(video_link)
+    current_app.config['player'] = player
 
-    return "Playing season {}, episode {}.".format(season_, episode_)
+    return "Playing season {} episode {}".format(season_, episode_)
 
 
 @app.route('/play')
 def play():
     """
-    This function starts playing the video
+    This function resumes playing the video if video currently paused
 
     :return: String with status
     """
+    player = current_app.config['player']
     player.play()
 
     return "Playing video."
@@ -57,10 +65,11 @@ def play():
 @app.route('/pause')
 def pause():
     """
-    This function pauses the video
+    This function pauses the video.
 
     :return: String with status
     """
+    player = current_app.config['player']
     player.pause()
 
     return "Video paused."
@@ -71,7 +80,7 @@ def tv_power():
     """
     Turn TV on or off
 
-    :return:
+    :return: String with status
     """
     status = request.args.get('status', default=1, type=str)
     if status == 'on':
