@@ -17,5 +17,4 @@ You need an Apple mobile device (iPhone or iPad), a TV with an HDMI-input, an Ap
 10. Run the installed app on your mobile Apple device and enjoy watching your favorite episodes!
 
 # Behind the scenes
-The backbone of this application is a web server gateway interface (WSGI) located in the 'wsgi.py' file. It is a web server that responds to requests that come in over the network.
-In this case the 
+The backbone of this application is a web server gateway interface (WSGI) located in the 'wsgi.py' file. It is a web server that responds to requests that come in over the network. Here, the requests (GET requests) will be sent from your mobile Apple device and arrive at the Raspberry Pi over the local area network. The WSGI is reacting to the requeset by playing the video/episode that was sent in the request and responds to the request sender with 'Playing episode xyz'. If the request was wrong or could not be processed, the WSGI responds with an error message.
