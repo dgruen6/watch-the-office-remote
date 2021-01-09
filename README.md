@@ -13,3 +13,5 @@ You need an Apple mobile device (iPhone or iPad), a TV with an HDMI-input, an Ap
 6. Connect to your extra computing device, here a Raspberry Pi 3, via SSH and copy the 'Backend'-folder to the Raspberry Pi.
 7. For single use run the 'wsgi.py' script on the Raspberry Pi. For regular usage, I recommend putting the shell script (located in the 'Backend'-folder) in your autostart folder on the Raspberry Pi. With that the 'wsgi.py' script runs automatically when the Raspberry Pi is turned on.
 8. Download your favorite episodes of 'The Office' or any other show and copy them to your Raspberry Pi. 
+9. Link the files in the 'season_episode_dict.csv'-file, so that the 'wsgi.py'-script can find them.
+10. Run the installed app on your mobile Apple device and enjoy watching your favorite episodes!
