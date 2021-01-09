@@ -15,3 +15,7 @@ You need an Apple mobile device (iPhone or iPad), a TV with an HDMI-input, an Ap
 8. Download your favorite episodes of 'The Office' or any other show and copy them to your Raspberry Pi. 
 9. Link the files in the 'season_episode_dict.csv'-file, so that the 'wsgi.py'-script can find them.
 10. Run the installed app on your mobile Apple device and enjoy watching your favorite episodes!
+
+# Behind the scenes
+The backbone of this application is a web server gateway interface (WSGI) located in the 'wsgi.py' file. It is a web server that responds to requests that come in over the network.
+In this case the 
