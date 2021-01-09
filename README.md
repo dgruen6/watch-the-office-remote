@@ -1,5 +1,5 @@
 # What this application does
-Remote control your TV from your iPhone and watch 'The Office' episodes
+Remote control your TV from your iPhone and watch 'The Office' episodes or any other TV show episodes
 
 # Prerequisites
 You need an Apple mobile device (iPhone or iPad), a TV with an HDMI-input, an Apple computer (e.g. Mac, MacBook) to install the application to your mobile device, a wireless local area network (WLAN/Wifi), and an extra computing device (I used a Raspberry Pi 3)
